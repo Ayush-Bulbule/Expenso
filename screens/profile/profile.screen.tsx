@@ -1,8 +1,39 @@
-import { View, Text, TouchableOpacity, Image } from 'react-native'
+import { View, Text, TouchableOpacity, Image, Alert } from 'react-native'
 import React from 'react'
 import Screen from '@/components/screen'
+import Feather from '@expo/vector-icons/Feather'
+import transactionsRepository from '@/data/transactions.repository'
 
 const ProfileScreen = () => {
+
+  // Actions
+  const deleteAlert = async () => {
+    const confirm = Alert.alert("", "Are you sure you want to delete all transactions?", [
+      {
+        text: "Cancel",
+        style: 'cancel',
+        onPress: () => { }
+      },
+      {
+        text: "Delete",
+        style: 'destructive',
+        onPress: () => deleteTransactions()
+      }
+    ]);
+  }
+  const deleteTransactions = async () => {
+
+    try {
+      await transactionsRepository.deleteAllTransactions();
+      alert("All transactions deleted successfully");
+    } catch (err) {
+      console.error("Error deleting transactions:", err);
+      alert("Error deleting transactions");
+    }
+
+  }
+
+
   return (
     <Screen className="relative ">
       {/* Header */}
@@ -48,7 +79,33 @@ const ProfileScreen = () => {
       </View>
 
       {/* Actions */}
-      
+
+      <View className={`mt-4 mx-4`}>
+        <Text className='text-md font-poppins-medium text-black-500'>Settings</Text>
+        <View className=' bg-gray-50 rounded-xl mt-4 px-1'>
+          <TouchableOpacity className='flex-row w-full  p-3'>
+            <Feather name='edit' size={22} color='black' />
+            <Text className='text-md font-poppins-medium text-black-500 ml-3'>Edit Profile</Text>
+          </TouchableOpacity>
+          <View className='border-b border-gray-200'></View>
+          <TouchableOpacity className='flex-row w-full  p-3'>
+            <Feather name='info' size={22} color='black' />
+            <Text className='text-md font-poppins-medium text-black-500 ml-3'>App Info</Text>
+          </TouchableOpacity>
+          <View className='border-b border-gray-200'></View>
+          <TouchableOpacity className='flex-row w-full p-3' onPress={deleteAlert}>
+            <Feather name='trash' size={22} color='red' />
+            <Text className='text-md font-poppins-medium text-black-500 ml-3'>Delete Data</Text>
+          </TouchableOpacity>
+          <View className='border-b border-gray-200'></View>
+          <TouchableOpacity className='flex-row w-full  p-3'>
+            <Feather name='lock' size={22} color='black' />
+            <Text className='text-md font-poppins-medium text-black-500 ml-3'>Logout</Text>
+          </TouchableOpacity>
+        </View>
+
+      </View>
+
     </Screen>
   )
 }
