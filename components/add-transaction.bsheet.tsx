@@ -1,6 +1,6 @@
 // Add new transacaction
 import React, { useState, useRef, useMemo, useCallback } from 'react'
-import { View, Text, TouchableOpacity } from 'react-native'
+import { View, Text, TouchableOpacity, ToastAndroid } from 'react-native'
 import BottomSheet, { BottomSheetView } from '@gorhom/bottom-sheet';
 import transactionsRepo from '@/data/transactions.repository';
 import { Transaction } from '@/types';
@@ -10,6 +10,7 @@ import { TextInput } from 'react-native-gesture-handler';
 import useTransactionStore from '@/store/transaction.store';
 import SelectCategory from './select-category';
 import SelectType from './select-type';
+import Toast from 'react-native-toast-message';
 
 const AddTansactionBSheet = () => {
 
@@ -42,13 +43,21 @@ const AddTansactionBSheet = () => {
     const saveTransaction = async () => {
         console.log("Save Called!!")
         try {
+            if (!amount || parseFloat(amount) <= 0) {
+                ToastAndroid.show("Please enter valid amount", ToastAndroid.SHORT);
+                return;
+            }
+            if (!transaction.title) {
+                ToastAndroid.show("Please enter valid title", ToastAndroid.SHORT);
+                return;
+            }
             // Set transaction amount
             transaction.amount = parseFloat(amount);
+            console.log("Transaction:", transaction);
             // Add transaction
             await addTransaction(transaction);
             bottomSheetRef.current?.close();
             clearTransac();
-            setAmount('');
         } catch (err) {
             console.log("Error adding transaction:", err);
         }
@@ -67,6 +76,7 @@ const AddTansactionBSheet = () => {
             type: 'Expense',
             timestamp: Date.now()
         })
+        setAmount('');
     }
 
     const handleSheetChanges = useCallback((index: number) => {

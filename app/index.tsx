@@ -1,6 +1,7 @@
 import { DatabaseInitializer } from "@/data/db.config";
 import { initilizeTransaction } from "@/store/transaction.store";
 import { Redirect } from "expo-router";
+import Toast from "react-native-toast-message";
 import { Suspense, useEffect, useState } from "react";
 
 
@@ -27,6 +28,7 @@ export default function Index() {
 
   return (
     <>
+      <Toast />
       {dbLoaded ? <Redirect href="/(tabs)/home" /> : <></>}
     </>
   );
