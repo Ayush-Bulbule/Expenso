@@ -1,10 +1,12 @@
 import { DatabaseInitializer } from "@/data/db.config";
+import { initilizeTransaction } from "@/store/transaction.store";
 import { Redirect } from "expo-router";
 import { Suspense, useEffect, useState } from "react";
 
 
 export default function Index() {
   const [dbLoaded, setDbLoaded] = useState(false);
+
 
   useEffect(() => {
     const initilizeDB = async () => {
@@ -14,6 +16,7 @@ export default function Index() {
         await db.initialize();
         setDbLoaded(true);
         console.log("Loaded")
+        await initilizeTransaction();
       } catch (err) {
         console.log("Error in initilizing database: ", err);
       }

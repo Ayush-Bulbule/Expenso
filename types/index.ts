@@ -3,7 +3,7 @@ export type Transaction = {
     amount: number;
     title: string;
     category: string;
-    type: "Expense" | "Income";
+    type: string;
     timestamp: number;
 }
 

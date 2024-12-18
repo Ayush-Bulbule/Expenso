@@ -7,10 +7,15 @@ import { Transaction } from '@/types';
 import Feather from '@expo/vector-icons/Feather';
 import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
 import { TextInput } from 'react-native-gesture-handler';
+import useTransactionStore from '@/store/transaction.store';
+import SelectCategory from './select-category';
+import SelectType from './select-type';
 
 const AddTansactionBSheet = () => {
 
-    // ref
+    const addTransaction = useTransactionStore((state) => state.addTransaction)
+    const [amount, setAmount] = useState<string>('');
+
     const bottomSheetRef = useRef<BottomSheet>(null);
     const snapPoints = useMemo(() => ["75%"], []);
     const [bottomSheetModal, setBottomSheetModal] = useState(false);
@@ -37,26 +42,36 @@ const AddTansactionBSheet = () => {
     const saveTransaction = async () => {
         console.log("Save Called!!")
         try {
-            console.log("Transaction:", transaction);
+            // Set transaction amount
+            transaction.amount = parseFloat(amount);
             // Add transaction
-            await transactionsRepo.addTransaction(transaction);
-
+            await addTransaction(transaction);
             bottomSheetRef.current?.close();
+            clearTransac();
+            setAmount('');
         } catch (err) {
             console.log("Error adding transaction:", err);
         }
     }
 
-    // close
     const closeBottomSheet = () => {
+        clearTransac();
         bottomSheetRef.current?.close();
     }
 
-    // callbacks
+    const clearTransac = () => {
+        setTransaction({
+            amount: 0,
+            title: '',
+            category: "Shopping",
+            type: 'Expense',
+            timestamp: Date.now()
+        })
+    }
+
     const handleSheetChanges = useCallback((index: number) => {
         console.log('handleSheetChanges', index);
     }, []);
-
 
     return (
         <>
@@ -65,9 +80,7 @@ const AddTansactionBSheet = () => {
                 <Feather name="plus" size={24} color={"white"} />
             </TouchableOpacity>
 
-
             {/* Bottom Sheet */}
-
             <BottomSheet
                 index={-1}
                 snapPoints={snapPoints}
@@ -85,26 +98,24 @@ const AddTansactionBSheet = () => {
                 <BottomSheetView className='bg-white p-4 flex-1'>
                     <View className='flex items-center  py-2'>
                         <View className="flex flex-row items-center justify-between gap-2">
-                            <TouchableOpacity className="flex-1 flex-row justify-between items-center bg-emerald-50 rounded-full px-4 py-3">
-                                <FontAwesome5 name="money-bill-alt" size={20} color="#047857" />
-                                <Text className="text-md font-poppins-medium text-emerald-800 ml-3">Cash</Text>
-                                <Feather name="chevron-down" size={20} color="black" />
-                            </TouchableOpacity>
-                            <TouchableOpacity className="flex-1 flex-row justify-between items-center bg-amber-50 rounded-full px-4 py-3">
-                                <Feather name="shopping-bag" size={20} color="#92400e" />
-                                <Text className="text-md font-poppins-medium text-amber-800 ml-3">Shopping</Text>
-                                <Feather name="chevron-down" size={20} color="black" />
-                            </TouchableOpacity>
+                            <SelectType type={transaction.type} setType={(type) => setTransaction({ ...transaction, type })} />
+                            <SelectCategory category={transaction.category} setCategory={(category) => setTransaction({ ...transaction, category })} />
                         </View>
-
+                        {/* Data */}
                         <View className='flex justify-center pt-4'>
-                            <Text className='text-md text-center font-poppins-medium text-gray-800 mt-4'>Expense</Text>
                             <View className=' flex flex-row justify-center  items-center mt-6'>
                                 <Text className='text-xl   text-center font-poppins-medium text-gray-800'>₹</Text>
-                                <TextInput onChangeText={(e)=>setTransaction({...transaction, amount:parseInt(e)})} className=' text-gray-800 text-5xl font-poppins-bold h-24' placeholder='0.00' keyboardType='numeric' cursorColor={"black"} />
+                                <TextInput
+                                    value={amount}
+                                    onChangeText={setAmount}
+                                    className="text-gray-800 text-5xl font-poppins-bold h-24"
+                                    placeholder="0.00"
+                                    keyboardType="numeric"
+                                    cursorColor="black"
+                                />
                             </View>
                             <View className='flex flex-row gap-2 items-center justify-center'>
-                                <TextInput onChangeText={(e)=>setTransaction({...transaction, title:e})}  className='bg-gray-100 rounded-lg px-4 py-2 flex-grow-0 text-center w-36' placeholder='Add Comment' />
+                                <TextInput value={transaction.title.toString()} onChangeText={(e) => setTransaction({ ...transaction, title: e })} className='bg-gray-100 rounded-lg px-4 py-2 flex-grow-0 text-center w-36' placeholder='Add Comment' />
                             </View>
                         </View>
                     </View>

@@ -3,8 +3,11 @@ import React from 'react'
 import Screen from '@/components/screen'
 import Feather from '@expo/vector-icons/Feather'
 import transactionsRepository from '@/data/transactions.repository'
+import useTransactionStore from '@/store/transaction.store'
 
 const ProfileScreen = () => {
+
+  const deleteAllTransactions = useTransactionStore((state) => state.deleteAllTransactions)  
 
   // Actions
   const deleteAlert = async () => {
@@ -24,7 +27,7 @@ const ProfileScreen = () => {
   const deleteTransactions = async () => {
 
     try {
-      await transactionsRepository.deleteAllTransactions();
+      await deleteAllTransactions();
       alert("All transactions deleted successfully");
     } catch (err) {
       console.error("Error deleting transactions:", err);

@@ -1,21 +1,32 @@
 // Contents: Constants used in the application
+import {
+    Utensils,      // Food
+    Bus,           // Travel
+    ShoppingCart,  // Grocery
+    Stethoscope,   // Health
+    Film,          // Entertainment
+    Tags,          // Shopping
+    GraduationCap, // Education
+    MoreHorizontal // Others
+  } from 'lucide-react-native';
 
 const CONSTANTS = {
-    DB:{
+    DB: {
         NAME: "expense.db",
         TRANSACTIONS_TABLE: "transactions",
         CATEGORIES_TABLE: "categories"
     },
     CATEGORIES: [
-        {name: "Food", icon: "fast-food-outline"},
-        {name: "Travel", icon: "bus-outline"},
-        {name: "Grocery", icon: "cart-outline"},
-        {name: "Health", icon: "medkit-outline"},
-        {name: "Entertainment", icon: "film-outline"},
-        {name: "Shopping", icon: "pricetags-outline"},
-        {name: "Education", icon: "school-outline"},
-        {name: "Others", icon: "ellipsis-horizontal-outline"},
+        { name: "Food", icon: Utensils },
+        { name: "Travel", icon: Bus },
+        { name: "Grocery", icon: ShoppingCart },
+        { name: "Health", icon: Stethoscope },
+        { name: "Entertainment", icon: Film },
+        { name: "Shopping", icon: Tags },
+        { name: "Education", icon: GraduationCap },
+        { name: "Others", icon: MoreHorizontal },
     ]
+
 }
 
 export default CONSTANTS;
