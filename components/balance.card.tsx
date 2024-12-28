@@ -1,27 +1,27 @@
 import { View, Text } from 'react-native'
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { TrendingUp, TrendingDown } from 'lucide-react-native'
 import transactionsRepository from '@/data/transactions.repository';
+import useTransactionStore from '@/store/transaction.store';
+import moment from 'moment';
 
 const BalanceCard = () => {
-    const [balance, setBalance] = React.useState(0);
+    const [balance, setBalance] =useState(0);
+    const transactions = useTransactionStore((state) => state.transactions);
+    
+    const isPositive = balance >= 0;
 
     useEffect(() => {
         const fetchBalance = async () => {
-            try {
-                const bal = await transactionsRepository.fetchBalance();
-                setBalance(bal);
-            } catch (error) {
-                console.error('Failed to fetch transactions:', error);
-            }
+            const balance = await transactionsRepository.fetchBalance();
+            setBalance(balance);
         }
         fetchBalance();
-    }, []);
-
-    const isPositive = balance >= 0;
+        console.log('Balance:', balance);
+    }, [transactions]);
 
     return (
-        <View className='bg-white shadow-lg rounded-2xl mx-4 my-2 p-6'>
+        <View className='bg-white shadow-lg rounded-2xl mx-4 my-2 p-6 py-4'>
             <View className='flex-row justify-between items-center'>
                 <View className='flex-row items-center'>
                     {isPositive ? (
@@ -33,8 +33,8 @@ const BalanceCard = () => {
                         Total Balance
                     </Text>
                 </View>
-                <Text className='text-sm font-poppins-regular text-gray-500'>
-                    {new Date().toLocaleDateString()}
+                <Text className='text-sm font-poppins-regular text-gray-500 my-2'>
+                    {moment().format('MMM DD, YYYY')}
                 </Text>
             </View>
             
