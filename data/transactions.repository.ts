@@ -78,10 +78,70 @@ class TransactionRepository {
     async fetchBalance(): Promise<any> {
         try {
             const query = `SELECT SUM(CASE WHEN type = 'Income' THEN amount ELSE 0 END) - SUM(CASE WHEN type = 'Expense' THEN amount ELSE 0 END) AS balance FROM ${CONSTANTS.DB.TRANSACTIONS_TABLE};`;
-            const result:{balance:string}[] = await this.db.getAllAsync(query);
+            const result: { balance: string }[] = await this.db.getAllAsync(query);
             return result[0].balance;
         } catch (err) {
             console.error("Error fetching balance:", err);
+            throw err;
+        }
+    }
+
+    // Get Expenses by Category
+    async getExpnesesByCategory(): Promise<any[]> {
+        try {
+            const query =  `SELECT * FROM transactions`; 
+
+            const result = await this.db.getAllAsync(query);
+            console.log("Result :", result);
+            return result;
+        } catch (err) {
+            console.error("Error fetching expenses by category:", err);
+            throw err;
+        }
+    }
+
+    // get Total Expense
+    async getTotalExpense(): Promise<any> {
+        try {
+            const query =  `SELECT * FROM transactions`; 
+
+            const result = await this.db.getAllAsync(query);
+            console.log("Result :", result);
+            return result;
+        } catch (err) {
+            console.error("Error fetching total expenses:", err);
+            throw err;
+        }
+    }
+
+    //get Day Wise data
+    async getWeeklyData(): Promise<any> {
+        try {
+            // const query = ``;
+            // const result = await this.db.getAllAsync(query)
+            // console.log("Week: ", result)
+            // return result;
+            // const query =  `SELECT * FROM transactions`; 
+
+            console.log("Will Build this later!!!");
+        } catch (err) {
+            console.log("Error fetching total expenses:", err);
+            throw err;
+        }
+    }
+
+    // Day Wise Query
+    async getExpenseByDay(): Promise<any> {
+        try {
+            const query =  `SELECT * FROM transactions`; 
+    
+
+            const result = await this.db.execAsync(query);
+            console.log("Data: ")
+            console.log(result);
+            return result;
+        } catch (err) {
+            console.log("Error fetching total expense", err);
             throw err;
         }
     }

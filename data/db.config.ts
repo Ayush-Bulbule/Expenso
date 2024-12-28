@@ -29,7 +29,7 @@ export class DatabaseInitializer {
                 await this.db.execAsync(
                     `CREATE TABLE IF NOT EXISTS ${CONSTANTS.DB.CATEGORIES_TABLE} (
                         id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
-                        name TEXT NOT NULL,
+                        name TEXT NOT NULL UNIQUE,
                         icon TEXT NOT NULL
                     )`
                 );

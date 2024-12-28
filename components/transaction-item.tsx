@@ -61,31 +61,7 @@ const TransactionItem = ({ onDelete, onEdit, ...transaction }: TransactionItemPr
         );
     };
 
-    const renderLeftActions = (
-        progress: Animated.AnimatedInterpolation<number>,
-        dragX: Animated.AnimatedInterpolation<number>
-    ) => {
-        const scale = dragX.interpolate({
-            inputRange: [0, 80],
-            outputRange: [0, 1],
-            extrapolate: 'clamp',
-        });
-
-        return (
-            <TouchableOpacity
-                className="w-16 h-full justify-center items-center bg-green-500"
-                onPress={() => {
-                    swipeableRef.current?.close();
-                    // Add your left swipe action here
-                }}
-            >
-                <Animated.View style={{ transform: [{ scale }] }}>
-                    {/* Add your left action icon here */}
-                </Animated.View>
-            </TouchableOpacity>
-        );
-    };
-
+    
     return (
         <Swipeable
             ref={swipeableRef}

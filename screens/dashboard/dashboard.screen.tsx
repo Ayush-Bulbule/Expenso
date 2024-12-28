@@ -1,74 +1,76 @@
-import { View, Text, FlatList, FlatListComponent, ScrollView } from 'react-native'
-import React from 'react'
+import { View, Text, FlatList, FlatListComponent, ScrollView, Dimensions } from 'react-native'
+import React, { useEffect } from 'react'
 import Screen from '@/components/screen'
 import Ionicons from '@expo/vector-icons/Ionicons'
+import ExpenseCategoryItem from '@/components/expense-category-item'
+import transactionsRepository from '@/data/transactions.repository'
+import { BarChart } from 'react-native-chart-kit';
+import { Gesture, GestureHandlerRootView } from 'react-native-gesture-handler'
+import ExpenseBarGraph from '@/components/expense-bargraph'
 
 const DashboardScreen = () => {
+  const [categoryData, setCategoryData] = React.useState<any>([]);
+  const [totalExpense, setTotalExpense] = React.useState<number>(0);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      //fetch her
+      const categoryData = await transactionsRepository.getExpnesesByCategory();
+      const totalExpense = await transactionsRepository.getTotalExpense();
+      const weeklyData = await transactionsRepository.getExpenseByDay();
+      setTotalExpense(totalExpense[0].totalExpenses);
+      console.log(categoryData);
+      setCategoryData(categoryData);
+    }
+
+    fetchData()
+  }, []);
   return (
-    <Screen className='relative'>
+    <Screen className='flex-1'>
+      <ScrollView>
       <Text className='text-xl text-center font-poppins-medium py-4'>expenso</ Text>
-      {/* bar graph of daily spendings */}
-      <View className='bg-blue-50 px-8 py-10 rounded-3xl m-4 h-64'>
-        {/* Add Bar graph here */}
+      {/* Dev Banner */}
+      <View className='bg-amber-400 p-2'>
+        <Text className='text-center text-white'>This screen is under development!</Text>
       </View>
+      {/* bar graph of daily spendings */}
+      <ExpenseBarGraph />
 
       {/* Spending Group - Day, Week, Month */}
       <View className='px-2 pt-8 flex flex-row gap-2'>
-        <View className='flex-1 bg-blue-50 px-4 py-6 rounded-3xl'>
+        <View className='flex-1 bg-blue-50 px-2 py-6 rounded-3xl'>
           <Text className='text-xs  font-poppins-regular text-center'>Today</Text>
-          <Text className='text-sm text-center font-poppins-medium'>₹ 20313.00</Text>
+          <Text className='text-md text-center font-poppins-medium'>₹ {totalExpense}</Text>
         </View>
-        <View className='flex-1 bg-blue-50 px-4 py-6 rounded-3xl'>
+        <View className='flex-1 bg-blue-50 px-2 py-6 rounded-3xl'>
           <Text className='text-xs  font-poppins-regular text-center'>Week</Text>
-          <Text className='text-sm text-center font-poppins-medium'>₹ 20313.00</Text>
+          <Text className='text-md text-center font-poppins-medium'>₹ {totalExpense}</Text>
         </View>
-        <View className='flex-1 bg-blue-50 px-4 py-6 rounded-3xl'>
+        <View className='flex-1 bg-blue-50 px-2 py-6 rounded-3xl'>
           <Text className='text-xs  font-poppins-regular text-center'>Month</Text>
-          <Text className='text-sm text-center font-poppins-medium'>₹ 20313.00</Text>
+          <Text className='text-md text-center font-poppins-medium'>₹ {totalExpense}</Text>
         </View>
       </View>
 
 
       {/* List of categories */}
-      <View className='p-2 mt-6 mb-20'>
-        <Text className='text-xl font-poppins-medium text-gray-700 mb-2 px-2'>Today</Text>
-        {/* List Item */}
-
-      <FlatList 
-        data={[
-          {key: 'Grocery', value: '₹ 2000.00'},
-          {key: 'Transport', value: '₹ 500.00'},
-          {key: 'Food', value: '₹ 500.00'},
-          {key: 'Entertainment', value: '₹ 500.00'},
-          {key: 'Others', value: '₹ 500.00'},
-          {key: 'tp', value: '₹ 500.00'},
-          {key: 'tk', value: '₹ 500.00'},
-          {key: 'ts', value: '₹ 500.00'},
-          {key: 's', value: '₹ 500.00'},
-          {key: 'sf', value: '₹ 500.00'},
-        ]}
-        scrollEnabled={true}
-        
-        renderItem={({item}) => 
-          <View className='flex flex-row justify-between items-center p-3 rounded-2xl'>
-            <View className='flex flex-row'>
-              <View className='h-12 w-12 flex items-center mr-3 justify-center bg-rose-100 rounded-full'>
-                <Ionicons name="fast-food-outline" size={24} color={"red"} />
-              </View>
-              <View>
-                <Text className='text-lg font-poppins-medium text-gray-800'>{item.key}</Text>
-                <Text className='text-sm font-poppins-regular'>Lunch</Text>
-              </View>
-            </View>
-            <View>
-              <Text className='text-md font-poppins-medium'>{item.value}</Text>
-            </View>
-          </View>
-        }
-      />
+      <View className='p-2 mt-6 flex-1'>
+        <Text className='text-xl font-poppins-medium text-gray-700 mb-2 px-2'>Summary</Text>
+        <FlatList
+          className="flex-1" // Add this
+          data={categoryData}
+          renderItem={({ item }) => (
+            <ExpenseCategoryItem category={item.category} count={item.count} amount={item.amount} totalExpense={totalExpense} />
+          )}
+          keyExtractor={(item) => item.category}
+          contentContainerStyle={{
+            padding: 2 // Move padding here if needed
+          }}
+          scrollEnabled={false}
+          ItemSeparatorComponent={() => <View className="h-2" />}
+        />
       </View>
-
-      
+      </ScrollView>
     </Screen>
   )
 }
