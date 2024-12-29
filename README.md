@@ -42,7 +42,7 @@
 
 ## Screenshots
 
-| ![Screenshot_20241229_151033_batua](https://github.com/user-attachments/assets/cbdc5fdb-c234-4d0b-a41f-10d766c894ce) | ![Screenshot_20241229_151048_batua](https://github.com/user-attachments/assets/d0da322c-f096-482d-9441-9f10e14dbb5d) | ![Screenshot_20241229_150953_batua](https://github.com/user-attachments/assets/280d4b96-e50b-449e-a291-59947de78df6)  |
+| ![Screenshot_20241229_150953_batua](https://github.com/user-attachments/assets/280d4b96-e50b-449e-a291-59947de78df6) | ![Screenshot_20241229_151033_batua](https://github.com/user-attachments/assets/cbdc5fdb-c234-4d0b-a41f-10d766c894ce) | ![Screenshot_20241229_151048_batua](https://github.com/user-attachments/assets/d0da322c-f096-482d-9441-9f10e14dbb5d) |
 |--------------------------------------|---------------------------------------------|-------------------------------------------|
 
 ---
