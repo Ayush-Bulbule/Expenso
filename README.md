@@ -1,6 +1,5 @@
 # Welcome to Expenso
 
-
 **Expnso** is your personal finance manager, designed to simplify the tracking of expenses and incomes. This cross-platform application operates seamlessly on both **Windows** and **Linux**, enabling you to manage your finances effortlessly.
 
 ---
@@ -25,7 +24,7 @@
 ### Steps
 1. Clone the repository:
    ```bash
-   [git clone https://github.com/your-repository/expenso.git](https://github.com/Ayush-Bulbule/expenso)
+   git clone https://github.com/Ayush-Bulbule/expenso.git
    ```
 2. Install dependencies:
    ```bash
@@ -61,5 +60,5 @@ Contributions are welcome! Please submit a pull request or open an issue for sug
 
 ## Support
 
-For support or questions, please email **support@batua.com** or open an issue in the repository.
+For support or questions, please email **ayushbulbule24@gmail.com** or open an issue in the repository.
 
