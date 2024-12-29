@@ -1,6 +1,7 @@
-![Screenshot_20241229_151048_batua](https://github.com/user-attachments/assets/e078aa97-dc97-4502-9739-e8e5b6b44d4f)# Welcome to Expenso
+# Welcome to Expenso
 
-**Batua** is your personal finance manager, designed to simplify the tracking of expenses and incomes. This cross-platform application operates seamlessly on both **Windows** and **Linux**, enabling you to manage your finances effortlessly.
+
+**Expnso** is your personal finance manager, designed to simplify the tracking of expenses and incomes. This cross-platform application operates seamlessly on both **Windows** and **Linux**, enabling you to manage your finances effortlessly.
 
 ---
 
